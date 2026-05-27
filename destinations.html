@@ -1,0 +1,833 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- UPDATE THIS PLACEHOLDER HERE: Change this title if you want her name in the browser tab -->
+  <title>Destinations I Wish To Go With You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fff8f1;
+      --paper: #1f1523;
+      --rose: #be5f60;
+      --wine: #4b1f2b;
+      --ink: #fff6ee;
+      --muted: #dbc4bd;
+      --gold: #b88735;
+      --sage: #5f9177;
+      --pine: #0d3d32;
+      --midnight: #100a18;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.14), transparent 18rem),
+        radial-gradient(circle at 88% 2%, rgba(184, 95, 96, 0.25), transparent 20rem),
+        linear-gradient(180deg, #100a18 0%, #1a0f1f 42%, #130b18 100%);
+      color: var(--ink);
+      font-family: "DM Sans", Arial, sans-serif;
+      font-weight: 300;
+    }
+    body.modal-open { overflow: hidden; }
+
+    #snowfall {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 3;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 78svh;
+      display: flex;
+      align-items: end;
+      padding: 2rem 1rem;
+      color: white;
+      background: #100a18;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 64% center;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(rgba(10, 7, 18, 0.03), rgba(16, 10, 24, 0.7));
+    }
+
+    .hero::after {
+      inset: auto 0 0;
+      height: 11rem;
+      background: linear-gradient(transparent, #100a18 88%);
+      z-index: 1;
+    }
+
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding-bottom: 2rem;
+      text-shadow: 0 3px 22px rgba(0,0,0,0.72);
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 0.9rem;
+      color: #ffdca7;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      max-width: 780px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.7rem, 12vw, 6.5rem);
+      font-weight: 400;
+      line-height: 0.95;
+      color: #fffaf5;
+    }
+    .hero p {
+      max-width: 650px;
+      margin-top: 1rem;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      line-height: 1.45;
+      color: #fff5e7;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1rem;
+      background: linear-gradient(rgba(28, 12, 16, 0.52), transparent);
+    }
+    .topbar a {
+      border-radius: 999px;
+      padding: 0.7rem 1rem;
+      color: white;
+      background: rgba(255, 255, 255, 0.16);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 4rem 1rem;
+    }
+    main::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(rgba(16, 10, 24, 0.42), rgba(16, 10, 24, 0.58)),
+        url("images/destinations/christmas.jpg");
+      background-color: #100a18;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(1px) saturate(1.08) brightness(0.96);
+      transform: scale(1.015);
+    }
+    main::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 211, 107, 0.14), transparent 18rem),
+        radial-gradient(circle at 90% 55%, rgba(184, 50, 63, 0.14), transparent 20rem),
+        linear-gradient(180deg, rgba(16, 10, 24, 0.08), rgba(16, 10, 24, 0.34));
+      pointer-events: none;
+    }
+    .intro {
+      width: min(760px, 100%);
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+    .intro h2 {
+      color: #f9d7ce;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2rem, 8vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+    .intro p {
+      margin-top: 1rem;
+      color: #dec4bd;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.12rem, 4vw, 1.4rem);
+      line-height: 1.55;
+    }
+
+    .map-panel {
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto 2.2rem;
+      width: min(1120px, 100%);
+      min-height: 430px;
+      border: 1px solid rgba(255, 211, 107, 0.2);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(64, 112, 130, 0.15), transparent 18rem),
+        radial-gradient(circle at 78% 64%, rgba(190, 95, 96, 0.12), transparent 18rem),
+        linear-gradient(145deg, #040912, #07121c 56%, #130d18);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    }
+    .map-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image:
+        linear-gradient(rgba(180, 213, 220, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180, 213, 220, 0.28) 1px, transparent 1px);
+      background-size: 8.333% 16.666%;
+      pointer-events: none;
+    }
+    .world-map {
+      position: absolute;
+      inset: 1rem;
+      opacity: 0.95;
+    }
+    .land {
+      fill: rgba(34, 58, 68, 0.94);
+      stroke: rgba(180, 213, 220, 0.48);
+      stroke-width: 1.4;
+      filter: drop-shadow(0 0 14px rgba(71, 142, 160, 0.18));
+    }
+    .country-border {
+      fill: none;
+      stroke: rgba(222, 238, 235, 0.3);
+      stroke-width: 0.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .map-coastline {
+      fill: none;
+      stroke: rgba(255, 246, 238, 0.16);
+      stroke-width: 3;
+    }
+    .map-graticule {
+      fill: none;
+      stroke: rgba(170, 210, 220, 0.12);
+      stroke-width: 0.6;
+    }
+    .map-marker {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff8df;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 0 0 6px rgba(184, 50, 63, 0.24), 0 0 22px rgba(255, 211, 107, 0.85);
+      cursor: pointer;
+      z-index: 3;
+      animation: markerPulse 2.4s ease-in-out infinite;
+    }
+    .map-marker:hover, .map-marker:focus-visible {
+      background: #ffd36b;
+      outline: none;
+      transform: translate(-50%, -50%) scale(1.35);
+    }
+    .map-marker span {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 0.45rem);
+      transform: translateX(-50%);
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.55rem;
+      color: #fff8f1;
+      background: rgba(16, 10, 24, 0.86);
+      font-size: 0.68rem;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .map-marker:hover span, .map-marker:focus-visible span { opacity: 1; }
+    @keyframes markerPulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(184, 50, 63, 0.2), 0 0 18px rgba(255, 211, 107, 0.66); }
+      50% { box-shadow: 0 0 0 10px rgba(184, 50, 63, 0.04), 0 0 28px rgba(255, 211, 107, 0.95); }
+    }
+    .map-caption {
+      position: absolute;
+      left: 1.2rem;
+      bottom: 1rem;
+      z-index: 4;
+      max-width: min(520px, calc(100% - 2.4rem));
+      color: #ffe4c7;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .destination {
+      overflow: hidden;
+      border: 0;
+      border-radius: 18px;
+      padding: 0;
+      border: 1px solid rgba(255, 211, 107, 0.14);
+      background: rgba(255, 248, 241, 0.94);
+      box-shadow: var(--shadow);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .destination:hover, .destination:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 54px rgba(75, 31, 43, 0.18);
+      outline: none;
+    }
+    .photo-stack {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      grid-template-rows: repeat(2, 105px);
+      gap: 3px;
+      height: 213px;
+      background: linear-gradient(135deg, #fff8f1, #ead8d2);
+    }
+    .photo-stack img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #ead8d2;
+    }
+    .photo-stack img:first-child { grid-row: 1 / 3; }
+    .destination-body { padding: 1.15rem; }
+    .destination h3 {
+      color: var(--wine);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+    .destination p {
+      margin-top: 0.65rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+    .tap-note {
+      display: inline-block;
+      margin-top: 0.8rem;
+      color: var(--rose);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .promise {
+      margin: 3rem auto 0;
+      width: min(780px, 100%);
+      border-radius: 20px;
+      padding: clamp(1.4rem, 5vw, 2.2rem);
+      color: white;
+      background:
+        linear-gradient(rgba(16, 10, 24, 0.48), rgba(16, 10, 24, 0.58)),
+        url("./images/destinations/travel-promise.jpg");
+      background-position: center;
+      background-size: cover;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .promise p {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      line-height: 1.45;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1.4rem;
+      border-radius: 999px;
+      padding: 0.85rem 1.2rem;
+      color: white;
+      background: var(--rose);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 12px 24px rgba(190, 95, 96, 0.28);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      /* background: rgba(20, 8, 12, 0.9); */
+      background: rgba(10, 7, 18, 0.03);
+    }
+    .modal.open { display: flex; }
+    .modal-panel {
+      width: min(980px, 100%);
+      max-height: 92svh;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 211, 107, 0.16);
+      background: #18101d;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+    }
+    .modal-image-wrap {
+      position: relative;
+      height: min(62svh, 620px);
+      background: linear-gradient(135deg, #fff8f1, #ead8d2);
+    }
+    .modal-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-actions {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+      padding: 0.7rem;
+    }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      color: white;
+      background: rgba(20, 8, 12, 0.58);
+      font-size: 1.8rem;
+      cursor: pointer;
+      pointer-events: auto;
+      backdrop-filter: blur(8px);
+    }
+    .close-btn {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+    }
+    .modal-body {
+      padding: 1.1rem 1.2rem 1.25rem;
+    }
+    .modal-body h2 {
+      color: #fff7ee;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+    .modal-body p {
+      margin-top: 0.55rem;
+      color: #dec4bd;
+      line-height: 1.55;
+    }
+    .counter {
+      margin-top: 0.7rem;
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 2rem 1rem;
+      color: #b99b94;
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 620px) {
+      .hero { min-height: 72svh; }
+      .topbar { padding: 0.7rem; }
+      .topbar a { padding: 0.65rem 0.85rem; }
+      .photo-stack { grid-template-rows: repeat(2, 88px); height: 179px; }
+      .map-panel { min-height: 330px; }
+      .map-marker { width: 13px; height: 13px; }
+      .modal { padding: 0; align-items: end; }
+      .modal-panel { max-height: 96svh; border-radius: 20px 20px 0 0; }
+      .modal-image-wrap { height: 54svh; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="snowfall" aria-hidden="true"></canvas>
+  <nav class="topbar" aria-label="Page navigation">
+    <a href="index.html">Back to birthday page</a>
+    <a href="#places">See places</a>
+  </nav>
+
+  <header class="hero">
+    <img class="hero-image" src="images/destinations/travel-hero.jpg" alt="Eiffel Tower in Paris">
+    <div class="hero-inner">
+      <span class="label">For someday - ❤️AdiAksh❤️</span>
+      <h1>Destinations I wish to go with you</h1>
+      <p>To travel the world with you, hand in hand, sky to sea - a thousand little places, and you beside me.
+        <br> <p style="text-align: right;">- Rudraksh Atreya</p>
+      </p>
+    </div>
+  </header>
+
+  <main id="places">
+    <section class="intro">
+      <span class="label" style="color:var(--gold)">A little glimpse of the future</span>
+      <h2>Places for our "someday" list</h2>
+      <!-- UPDATE THIS PLACEHOLDER HERE: Personalise this line if you want -->
+      <p>Not memories yet. Just beautiful promises waiting patiently on the map. <br> Tap the cards or the dots on the map to view images.</p>
+    </section>
+
+    <section class="map-panel" aria-label="Interactive world map">
+      <svg class="world-map" viewBox="0 0 1000 500" role="img" aria-label="Stylized dark world map">
+        <path class="map-graticule" d="M0 125H1000M0 250H1000M0 375H1000M125 0V500M250 0V500M375 0V500M500 0V500M625 0V500M750 0V500M875 0V500" />
+        <path class="map-coastline" d="M42 118 C70 79 129 65 181 78 C217 87 237 111 262 129 C292 150 321 148 338 177 C360 215 328 238 333 270 C338 306 304 333 267 325 C230 316 216 286 184 283 C152 280 131 306 101 286 C68 264 61 226 74 193 C89 157 18 154 42 118 Z" />
+        <path class="land" d="M42 118 C70 79 129 65 181 78 C217 87 237 111 262 129 C292 150 321 148 338 177 C360 215 328 238 333 270 C338 306 304 333 267 325 C230 316 216 286 184 283 C152 280 131 306 101 286 C68 264 61 226 74 193 C89 157 18 154 42 118 Z" />
+        <path class="map-coastline" d="M248 306 C285 292 333 312 351 350 C370 388 353 441 314 466 C275 490 235 454 243 409 C250 369 221 331 248 306 Z" />
+        <path class="land" d="M248 306 C285 292 333 312 351 350 C370 388 353 441 314 466 C275 490 235 454 243 409 C250 369 221 331 248 306 Z" />
+        <path class="map-coastline" d="M405 119 C448 93 509 92 552 109 C585 122 612 141 639 130 C668 118 704 132 718 160 C736 197 700 219 661 217 C632 216 614 239 585 251 C551 266 520 245 487 250 C451 255 419 235 405 202 C390 169 380 137 405 119 Z" />
+        <path class="land" d="M405 119 C448 93 509 92 552 109 C585 122 612 141 639 130 C668 118 704 132 718 160 C736 197 700 219 661 217 C632 216 614 239 585 251 C551 266 520 245 487 250 C451 255 419 235 405 202 C390 169 380 137 405 119 Z" />
+        <path class="map-coastline" d="M511 251 C548 234 608 252 637 292 C665 331 649 391 606 430 C568 465 519 438 525 390 C530 348 482 294 511 251 Z" />
+        <path class="land" d="M511 251 C548 234 608 252 637 292 C665 331 649 391 606 430 C568 465 519 438 525 390 C530 348 482 294 511 251 Z" />
+        <path class="map-coastline" d="M644 139 C691 105 770 98 831 119 C895 141 948 182 932 235 C918 281 849 281 801 302 C762 319 724 344 684 323 C640 300 615 257 623 209 C628 178 622 155 644 139 Z" />
+        <path class="land" d="M644 139 C691 105 770 98 831 119 C895 141 948 182 932 235 C918 281 849 281 801 302 C762 319 724 344 684 323 C640 300 615 257 623 209 C628 178 622 155 644 139 Z" />
+        <path class="map-coastline" d="M772 355 C818 330 898 339 935 384 C966 422 927 464 865 462 C806 460 734 392 772 355 Z" />
+        <path class="land" d="M772 355 C818 330 898 339 935 384 C966 422 927 464 865 462 C806 460 734 392 772 355 Z" />
+        <path class="country-border" d="M81 126 L128 116 L169 132 L213 123 L253 154" />
+        <path class="country-border" d="M117 164 L168 176 L218 167 L278 195 L326 198" />
+        <path class="country-border" d="M91 217 L143 221 L187 208 L229 231 L294 240" />
+        <path class="country-border" d="M181 83 L176 131 L187 177 L184 229 L199 282" />
+        <path class="country-border" d="M253 154 L250 205 L270 252 L265 322" />
+        <path class="country-border" d="M267 318 L295 352 L290 398 L309 462" />
+        <path class="country-border" d="M244 398 L286 390 L341 406" />
+        <path class="country-border" d="M263 341 L318 336 L351 360" />
+        <path class="country-border" d="M424 134 L468 144 L507 129 L551 151 L600 143 L661 162 L714 164" />
+        <path class="country-border" d="M408 188 L464 188 L520 199 L583 184 L641 202 L690 196" />
+        <path class="country-border" d="M456 238 L511 223 L564 242 L616 223" />
+        <path class="country-border" d="M484 104 L482 154 L498 205 L486 248" />
+        <path class="country-border" d="M554 112 L549 165 L565 218 L548 258" />
+        <path class="country-border" d="M616 133 L611 183 L632 218" />
+        <path class="country-border" d="M525 287 L574 285 L624 304" />
+        <path class="country-border" d="M516 337 L564 348 L642 341" />
+        <path class="country-border" d="M534 388 L587 391 L623 423" />
+        <path class="country-border" d="M552 251 L547 311 L565 369 L560 435" />
+        <path class="country-border" d="M633 149 L687 174 L755 158 L826 175 L914 216" />
+        <path class="country-border" d="M631 208 L695 214 L750 202 L811 226 L919 238" />
+        <path class="country-border" d="M654 267 L710 264 L764 291 L842 277" />
+        <path class="country-border" d="M715 117 L710 177 L730 240 L718 326" />
+        <path class="country-border" d="M801 119 L791 181 L807 242 L801 302" />
+        <path class="country-border" d="M870 139 L854 196 L879 256" />
+        <path class="country-border" d="M793 359 L839 374 L897 363 L934 389" />
+        <path class="country-border" d="M784 400 L844 412 L914 421" />
+        <path class="country-border" d="M854 342 L857 393 L877 459" />
+      </svg>
+      <div id="map-markers"></div>
+      <p class="map-caption">Tap a glowing marker to jump straight into that place's photo gallery.</p>
+    </section>
+
+    <section class="grid" id="destination-grid" aria-label="Travel destinations"></section>
+
+    <section class="promise">
+      <!-- UPDATE THIS PLACEHOLDER HERE: Replace this with a more personal travel promise if you want -->
+      <p>One day, not just through screens or wishes - I want to see the world with you, and watch every place become softer because you are there.</p>
+      <a class="btn" href="index.html">Return to the birthday journey</a>
+    </section>
+  </main>
+
+  <div class="modal" id="gallery-modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-image-wrap">
+        <img id="modal-image" src="" alt="">
+        <div class="modal-actions">
+          <button class="icon-btn" id="prev-image" type="button" aria-label="Previous image">&#8249;</button>
+          <button class="icon-btn" id="next-image" type="button" aria-label="Next image">&#8250;</button>
+        </div>
+        <button class="icon-btn close-btn" id="close-modal" type="button" aria-label="Close gallery">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h2 id="modal-title"></h2>
+        <p id="modal-copy"></p>
+        <div class="counter" id="modal-counter"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Travel dreams - birthday wishes - someday plans.</footer>
+
+  <script>
+    const snowCanvas = document.getElementById("snowfall");
+    const snowCtx = snowCanvas.getContext("2d");
+    let snowWidth = 0;
+    let snowHeight = 0;
+    let snowflakes = [];
+
+    function resizeSnow() {
+      snowWidth = snowCanvas.width = window.innerWidth;
+      snowHeight = snowCanvas.height = window.innerHeight;
+    }
+
+    function makeSnowflake() {
+      return {
+        x: Math.random() * snowWidth,
+        y: -12,
+        r: 1.4 + Math.random() * 3.8,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: 0.45 + Math.random() * 1.05,
+        wave: Math.random() * Math.PI * 2,
+        opacity: 0.42 + Math.random() * 0.5
+      };
+    }
+
+    function drawSnow() {
+      snowCtx.clearRect(0, 0, snowWidth, snowHeight);
+      if (Math.random() < 0.48) snowflakes.push(makeSnowflake());
+      snowflakes = snowflakes.filter((flake) => flake.y < snowHeight + 18);
+      snowflakes.forEach((flake) => {
+        flake.x += flake.vx + Math.sin(flake.wave) * 0.22;
+        flake.y += flake.vy;
+        flake.wave += 0.018;
+        snowCtx.save();
+        snowCtx.globalAlpha = flake.opacity;
+        snowCtx.beginPath();
+        snowCtx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+        snowCtx.fillStyle = "#ffffff";
+        snowCtx.shadowColor = "rgba(255,255,255,0.9)";
+        snowCtx.shadowBlur = 8;
+        snowCtx.fill();
+        snowCtx.restore();
+      });
+      requestAnimationFrame(drawSnow);
+    }
+
+    resizeSnow();
+    window.addEventListener("resize", resizeSnow);
+    drawSnow();
+
+    /*
+      UPDATE THIS PLACEHOLDER HERE:
+      If you want to use your own destination images, put them in the images folder and replace
+      any image query below with a local path like "images/paris-1.jpg".
+    */
+    const destinations = [
+      { name: "Paris", query: ["images/destinations/paris-1.jpg", "images/destinations/paris-2.jpg", "images/destinations/paris-3.jpg"], line: "For golden evenings, quiet cafes, and one walk where the Eiffel Tower lights feel like they turned on just for her." },
+      { name: "Switzerland", query: ["images/destinations/switzerland-1.jpg", "images/destinations/switzerland-2.jpg", "images/destinations/switzerland-3.jpg"], line: "For snow-soft mornings, mountain trains, and a view so pretty it makes both of you go silent." },
+      { name: "Edinburgh", query: ["images/destinations/edinburgh-1.jpg", "images/destinations/edinburgh-2.jpg", "images/destinations/edinburgh-3.jpg"], line: "For old streets, rainy bookshop weather, castle views, and stories that sound better when shared." },
+      { name: "Santorini", query: ["images/destinations/santorini-1.jpg", "images/destinations/santorini-2.jpg", "images/destinations/santorini-3.jpg"], line: "For blue water, white steps, sunset skies, and a slow evening with nowhere else to be." },
+      { name: "Kyoto", query: ["images/destinations/kyoto-1.jpg", "images/destinations/kyoto-2.jpg", "images/destinations/kyoto-3.jpg"], line: "For lantern-lit lanes, temple gardens, blossoms, and a peaceful day that feels like a poem." },
+      { name: "Bali", query: ["images/destinations/bali-1.jpg", "images/destinations/bali-2.jpg", "images/destinations/bali-3.jpg"], line: "For ocean air, green terraces, warm rain, and the kind of day that asks you to breathe slowly." },
+      { name: "Venice", query: ["images/destinations/venice-1.jpg", "images/destinations/venice-2.jpg", "images/destinations/venice-3.jpg"], line: "For canals, candlelit dinners, and getting beautifully lost between bridges." },
+      { name: "Rome", query: ["images/destinations/rome-1.jpg", "images/destinations/rome-2.jpg", "images/destinations/rome-3.jpg"], line: "For ancient streets, gelato walks, and wishes thrown into bright fountain water." },
+      { name: "London", query: ["images/destinations/london-1.jpg", "images/destinations/london-2.jpg", "images/destinations/london-3.jpg"], line: "For rainy walks, warm museums, and city lights reflected on the Thames." },
+      { name: "New York", query: ["images/destinations/new-york-1.jpg", "images/destinations/new-york-2.jpg", "images/destinations/new-york-3.jpg"], line: "For skyline nights, shared pizza slices, and feeling tiny in the best possible way." },
+      { name: "Dubai", query: ["images/destinations/dubai-1.jpg", "images/destinations/dubai-2.jpg", "images/destinations/dubai-3.jpg"], line: "For desert gold, glass towers, and a night view that feels almost unreal." },
+      { name: "Maldives", query: ["images/destinations/maldives-1.jpg", "images/destinations/maldives-2.jpg", "images/destinations/maldives-3.jpg"], line: "For clear blue water, slow mornings, and a world that feels made of sunlight." },
+      { name: "Istanbul", query: ["images/destinations/istanbul-1.jpg", "images/destinations/istanbul-2.jpg", "images/destinations/istanbul-3.jpg"], line: "For two continents, old domes, warm tea, and streets full of color." },
+      { name: "Prague", query: ["images/destinations/prague-1.jpg", "images/destinations/prague-2.jpg", "images/destinations/prague-3.jpg"], line: "For fairytale rooftops, river bridges, and evenings that feel softly lit." },
+      { name: "Amsterdam", query: ["images/destinations/amsterdam-1.jpg", "images/destinations/amsterdam-2.jpg", "images/destinations/amsterdam-3.jpg"], line: "For canal houses, bicycles, flowers, and a gentle city made for wandering." },
+      { name: "Barcelona", query: ["images/destinations/barcelona-1.jpg", "images/destinations/barcelona-2.jpg", "images/destinations/barcelona-3.jpg"], line: "For mosaics, music, sea air, and streets that feel painted by joy." },
+      { name: "Vienna", query: ["images/destinations/vienna-1.jpg", "images/destinations/vienna-2.jpg", "images/destinations/vienna-3.jpg"], line: "For palaces, music, old cafes, and elegance around every corner." },
+      { name: "Iceland", query: ["images/destinations/iceland-1.jpg", "images/destinations/iceland-2.jpg", "images/destinations/iceland-3.jpg"], line: "For waterfalls, black-sand beaches, and skies that know how to surprise you." },
+      { name: "Norway", query: ["images/destinations/norway-1.jpg", "images/destinations/norway-2.jpg", "images/destinations/norway-3.jpg"], line: "For fjords, quiet roads, and mountains dropping straight into the sea." },
+      { name: "Banff", query: ["images/destinations/banff-1.jpg", "images/destinations/banff-2.jpg", "images/destinations/banff-3.jpg"], line: "For blue lakes, pine air, and mountain mornings that feel almost too clean." },
+      { name: "Singapore", query: ["images/destinations/singapore-1.jpg", "images/destinations/singapore-2.jpg", "images/destinations/singapore-3.jpg"], line: "For glowing gardens, clean skylines, and a city that turns night into art." },
+      { name: "Seoul", query: ["images/destinations/seoul-1.jpg", "images/destinations/seoul-2.jpg", "images/destinations/seoul-3.jpg"], line: "For palace courtyards, night markets, and a city that never runs out of energy." },
+      { name: "Tokyo", query: ["images/destinations/tokyo-1.jpg", "images/destinations/tokyo-2.jpg", "images/destinations/tokyo-3.jpg"], line: "For neon streets, quiet shrines, and a thousand tiny discoveries." },
+      { name: "Cappadocia", query: ["images/destinations/cappadocia-1.jpg", "images/destinations/cappadocia-2.jpg", "images/destinations/cappadocia-3.jpg"], line: "For sunrise balloons, soft stone valleys, and a sky full of impossible color." },
+      { name: "Queenstown", query: ["images/destinations/queenstown-1.jpg", "images/destinations/queenstown-2.jpg", "images/destinations/queenstown-3.jpg"], line: "For lake views, adventure days, and air that feels like a fresh start." },
+      { name: "Sydney", query: ["images/destinations/sydney-1.jpg", "images/destinations/sydney-2.jpg", "images/destinations/sydney-3.jpg"], line: "For harbour sunsets, beach mornings, and that bright Australian blue." },
+      { name: "Cape Town", query: ["images/destinations/cape-town-1.jpg", "images/destinations/cape-town-2.jpg", "images/destinations/cape-town-3.jpg"], line: "For Table Mountain, ocean drives, and sunsets that take their time." },
+      { name: "Marrakech", query: ["images/destinations/marrakech-1.jpg", "images/destinations/marrakech-2.jpg", "images/destinations/marrakech-3.jpg"], line: "For warm colors, hidden courtyards, and markets that feel alive with stories." },
+      { name: "Petra", query: ["images/destinations/petra-1.jpg", "images/destinations/petra-2.jpg", "images/destinations/petra-3.jpg"], line: "For rose-red stone, ancient paths, and wonder carved straight into the earth." },
+      { name: "Seychelles", query: ["images/destinations/seychelles-1.jpg", "images/destinations/seychelles-2.jpg", "images/destinations/seychelles-3.jpg"], line: "For soft sand, blue water, and beaches that look like they belong in a dream." },
+      { name: "Lake Como", query: ["images/destinations/lake-como-1.jpg", "images/destinations/lake-como-2.jpg", "images/destinations/lake-como-3.jpg"], line: "For lakeside villages, boat rides, and evenings that feel slow in the best way." },
+      { name: "Lapland", query: ["images/destinations/lapland-1.jpg", "images/destinations/lapland-2.jpg", "images/destinations/lapland-3.jpg"], line: "For snowy cabins, northern lights, and a winter dream wrapped in quiet." }
+    ];
+
+    const grid = document.getElementById("destination-grid");
+    const mapMarkers = document.getElementById("map-markers");
+    const modal = document.getElementById("gallery-modal");
+    const modalImage = document.getElementById("modal-image");
+    const modalTitle = document.getElementById("modal-title");
+    const modalCopy = document.getElementById("modal-copy");
+    const modalCounter = document.getElementById("modal-counter");
+    let activeDestination = null;
+    let activeImage = 0;
+
+    const destinationCoordinates = {
+      "Paris": [48.8566, 2.3522],
+      "Switzerland": [46.8182, 8.2275],
+      "Edinburgh": [55.9533, -3.1883],
+      "Santorini": [36.3932, 25.4615],
+      "Kyoto": [35.0116, 135.7681],
+      "Bali": [-8.3405, 115.0920],
+      "Venice": [45.4408, 12.3155],
+      "Rome": [41.9028, 12.4964],
+      "London": [51.5072, -0.1276],
+      "New York": [40.7128, -74.0060],
+      "Dubai": [25.2048, 55.2708],
+      "Maldives": [3.2028, 73.2207],
+      "Istanbul": [41.0082, 28.9784],
+      "Prague": [50.0755, 14.4378],
+      "Amsterdam": [52.3676, 4.9041],
+      "Barcelona": [41.3874, 2.1686],
+      "Vienna": [48.2082, 16.3738],
+      "Iceland": [64.9631, -19.0208],
+      "Norway": [60.4720, 8.4689],
+      "Banff": [51.1784, -115.5708],
+      "Singapore": [1.3521, 103.8198],
+      "Seoul": [37.5665, 126.9780],
+      "Tokyo": [35.6762, 139.6503],
+      "Cappadocia": [38.6431, 34.8289],
+      "Queenstown": [-45.0312, 168.6626],
+      "Sydney": [-33.8688, 151.2093],
+      "Cape Town": [-33.9249, 18.4241],
+      "Marrakech": [31.6295, -7.9811],
+      "Petra": [30.3285, 35.4444],
+      "Seychelles": [-4.6796, 55.4920],
+      "Lake Como": [45.9840, 9.2572],
+      "Lapland": [67.9222, 26.5046]
+    };
+
+    function imageUrl(query, size, lock) {
+      if (query.startsWith("images/") || query.startsWith("./") || query.startsWith("http")) return query;
+      const [w, h] = size.split("x");
+      const tags = query.toLowerCase().replace(/[^a-z0-9]+/g, ",").replace(/^,|,$/g, "");
+      return `https://loremflickr.com/${w}/${h}/${tags}?lock=${encodeURIComponent(lock)}`;
+    }
+
+    function renderCards() {
+      grid.innerHTML = destinations.map((place, index) => {
+        const imgs = place.query.map((query, imgIndex) => imageUrl(query, "900x650", `${index}-${imgIndex}`));
+        return `
+          <button class="destination" type="button" data-index="${index}">
+            <div class="photo-stack">
+              <img src="${imgs[0]}" alt="${place.name} famous landmark image 1" loading="lazy" onerror="this.style.visibility='hidden'">
+              <img src="${imgs[1]}" alt="${place.name} famous landmark image 2" loading="lazy" onerror="this.style.visibility='hidden'">
+              <img src="${imgs[2]}" alt="${place.name} famous landmark image 3" loading="lazy" onerror="this.style.visibility='hidden'">
+            </div>
+            <div class="destination-body">
+              <h3>${place.name}</h3>
+              <p>${place.line}</p>
+              <span class="tap-note">Tap to view images</span>
+            </div>
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".destination").forEach((card) => {
+        card.addEventListener("click", () => openModal(Number(card.dataset.index)));
+      });
+    }
+
+    function renderMapMarkers() {
+      mapMarkers.innerHTML = destinations.map((place, index) => {
+        const [lat, lon] = destinationCoordinates[place.name];
+        const left = ((lon + 180) / 360) * 100;
+        const top = ((90 - lat) / 180) * 100;
+        return `<button class="map-marker" type="button" data-index="${index}" style="left:${left}%;top:${top}%"><span>${place.name}</span></button>`;
+      }).join("");
+
+      document.querySelectorAll(".map-marker").forEach((marker) => {
+        marker.addEventListener("click", () => openModal(Number(marker.dataset.index)));
+      });
+    }
+
+    function openModal(index) {
+      activeDestination = destinations[index];
+      activeImage = 0;
+      document.body.classList.add("modal-open");
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      updateModal();
+    }
+
+    function updateModal() {
+      const imageCount = activeDestination.query.length;
+      modalTitle.textContent = activeDestination.name;
+      modalCopy.textContent = activeDestination.line;
+      modalCounter.textContent = `Image ${activeImage + 1} of ${imageCount}`;
+      modalImage.src = imageUrl(activeDestination.query[activeImage], "1400x950", `${activeDestination.name}-${activeImage}`);
+      modalImage.alt = `${activeDestination.name} travel image ${activeImage + 1}`;
+    }
+
+    function moveImage(direction) {
+      const imageCount = activeDestination.query.length;
+      activeImage = (activeImage + direction + imageCount) % imageCount;
+      updateModal();
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    document.getElementById("next-image").addEventListener("click", () => moveImage(1));
+    document.getElementById("prev-image").addEventListener("click", () => moveImage(-1));
+    document.getElementById("close-modal").addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (!modal.classList.contains("open")) return;
+      if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowRight") moveImage(1);
+      if (event.key === "ArrowLeft") moveImage(-1);
+    });
+
+    renderCards();
+    renderMapMarkers();
+  </script>
+</body>
+</html>
