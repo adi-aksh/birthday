@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-label="Dark travel route map">
+  <defs>
+    <radialGradient id="glow" cx="48%" cy="42%" r="68%">
+      <stop offset="0%" stop-color="#26384a"/>
+      <stop offset="54%" stop-color="#141421"/>
+      <stop offset="100%" stop-color="#070911"/>
+    </radialGradient>
+    <linearGradient id="route" x1="0%" x2="100%" y1="30%" y2="70%">
+      <stop offset="0%" stop-color="#ffd36b"/>
+      <stop offset="46%" stop-color="#be5f60"/>
+      <stop offset="100%" stop-color="#5f9177"/>
+    </linearGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="680" fill="url(#glow)"/>
+  <g opacity=".16" stroke="#d8eee8" stroke-width="1">
+    <path d="M0 170H1200M0 340H1200M0 510H1200"/>
+    <path d="M150 0V680M300 0V680M450 0V680M600 0V680M750 0V680M900 0V680M1050 0V680"/>
+  </g>
+  <g fill="#223643" stroke="#d8eee8" stroke-opacity=".32" stroke-width="2">
+    <path d="M75 178c37-56 124-76 194-51 52 19 79 58 120 73 46 17 86 11 111 54 32 55-13 84-2 131 11 51-42 92-97 76-53-15-63-60-111-64-47-4-78 39-122 6-50-37-54-89-28-133 24-41-99-35-65-92z"/>
+    <path d="M319 417c55-26 128 2 151 59 26 64-12 145-78 174-58 26-111-30-98-96 12-58-15-104 25-137z"/>
+    <path d="M494 167c63-49 162-51 239-20 45 18 79 45 121 31 53-17 105 15 119 60 17 58-41 91-105 86-43-4-74 34-119 48-52 16-95-24-146-13-54 12-107-24-123-77-13-44-22-89 14-115z"/>
+    <path d="M616 368c52-31 135-5 177 51 42 55 18 142-48 195-58 46-133 8-124-68 7-63-49-132-5-178z"/>
+    <path d="M839 175c68-52 181-64 271-27 87 36 119 92 101 151-20 66-109 69-180 99-65 28-112 71-181 29-65-40-98-108-79-176 9-32 23-58 68-76z"/>
+    <path d="M889 495c69-42 187-28 238 37 45 58-15 120-109 116-88-4-186-94-129-153z"/>
+  </g>
+  <g fill="none" stroke="#f8efe4" stroke-opacity=".18" stroke-width="1.4" stroke-linecap="round">
+    <path d="M115 207l72-12 70 26 92-12 89 52"/>
+    <path d="M145 286l92 4 72-24 87 43 102 9"/>
+    <path d="M232 132l4 88-12 84 29 89"/>
+    <path d="M536 204l85 9 74-27 86 42 124-7"/>
+    <path d="M526 282l94 1 88 34 91-31 103 28"/>
+    <path d="M645 154l-7 82 30 88-21 52"/>
+    <path d="M872 204l89 37 95-31 128 72"/>
+    <path d="M824 306l105 8 91 50 135-14"/>
+    <path d="M962 147l-12 96 25 99"/>
+    <path d="M925 520l83 23 88-15"/>
+    <path d="M1004 493l11 63 19 85"/>
+  </g>
+  <path d="M260 206C375 248 471 296 579 350c110 55 203 101 335 201" fill="none" stroke="url(#route)" stroke-width="7" stroke-linecap="round" stroke-dasharray="16 18" filter="url(#softGlow)" opacity=".92"/>
+  <g filter="url(#softGlow)">
+    <circle cx="260" cy="206" r="10" fill="#ffd36b"/>
+    <circle cx="579" cy="350" r="10" fill="#be5f60"/>
+    <circle cx="914" cy="551" r="10" fill="#5f9177"/>
+  </g>
+</svg>
